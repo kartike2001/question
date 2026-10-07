@@ -206,6 +206,7 @@
       fig.append(tape, frame);
       var caption = str(item.caption);
       if (caption) fig.appendChild(rich(el('figcaption'), caption));
+      else fig.classList.add('polaroid--bare');       // no caption: keep the classic thick polaroid edge
       return fig;
     }
 

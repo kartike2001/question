@@ -52,10 +52,10 @@ const SITE = {
      A handwritten letter on lined paper. Leave an empty line between paragraphs.
      (Delete all the text to hide this section.) */
   note: {
-    title: `Hi Hannah,`,                               // how the letter starts
+    title: `Hi white chocolate,`,                               // how the letter starts
 
     text: `
-      I'm better at texting than talking about feelings, so I made you a little website instead.
+      You already know I am not the best at expressing my feelings, but these 10 days apart from you have made me realize how much I like you, so I made this website instead.
 
       Somewhere along the way, you became the person I want to tell everything to first. The good news, the bad news, the random thoughts, all of it.
 
@@ -63,7 +63,7 @@ const SITE = {
     `,
 
     signoff:   `Yours,`,                               // e.g. `Love,` or `Always,`
-    signature: `Your Name`,                            // ← your name
+    signature: `milk chocolate`,                            // ← your name
   },
 
 
@@ -87,25 +87,25 @@ const SITE = {
      Want more photos? Copy a whole { ... }, block and paste it below the last one.
      Want fewer? Delete a whole { ... }, block.  (Delete them all to hide this section.) */
   photos: {
-    title: `A few of my favorite moments`,
+    title: `Just some pictures cause they're cute`,
 
     items: [
       {
-        src:     ``,                                   // ← photo file, e.g. `photos/us-1.jpg`
+        src:     `photos/img-5914.jpg`,                // ← photo file, e.g. `photos/us-1.jpg`
         alt:     ``,                                   // ← optional: describe it for screen readers
-        caption: `Caption for photo 1`,                // ← handwritten text under the photo
+        caption: ``,                                   // ← handwritten text under the photo (empty = no caption)
         focus:   `center`,                             // ← optional: which part to keep when cropping
       },                                               //   `top`, `center`, `bottom`, or like `50% 20%`
       {
-        src:     ``,
+        src:     `photos/img-9291.jpg`,
         alt:     ``,
-        caption: `Caption for photo 2`,
+        caption: ``,
         focus:   `center`,
       },
       {
-        src:     ``,
+        src:     `photos/img-9351.jpg`,
         alt:     ``,
-        caption: `Caption for photo 3`,
+        caption: ``,
         focus:   `center`,
       },
     ],
@@ -118,10 +118,11 @@ const SITE = {
     title: `A few things I adore about you`,
 
     list: `
-      Your laugh (the real one, not the polite one)
-      How you make ordinary days feel a little lighter
-      The way you remember the small stuff
-      How kind you are without making a big deal of it
+      Your eyes, the big blue eyes, first thing I ever noticed (but please fix the eye bags and get some sleep)
+      How thoughtful you are, the plant and body wash melt my heart
+      Your shyness, ngl it's super cute, dw I will be the shameless one for us
+      3.83 GPA but still a retard
+      Your big ass forehead, it's easy to kiss
     `,
   },
 
@@ -135,9 +136,9 @@ const SITE = {
     text: `Will you be my *girlfriend*, Hannah?`,      // the question. *stars* = highlighted
     hint: `tap one to reply`,                          // tiny hint above the answers
 
-    yesLabel:   `Yes, I'd love to`,                    // answer 1
+    yesLabel:   `Please be gf so I can use the backdoor`,                    // answer 1
     maybeLabel: `I'd like a little time to think`,     // answer 2 (the gentle "not yet"). Make it `` to remove it
-    noLabel:    `No, but thank you for asking`,        // answer 3
+    noLabel:    `No, it's cause I'm Indian and you would not date one`,        // answer 3
 
     note: `Either answer is okay. I'm just glad you read this.`,   // small line under the answers
   },
@@ -146,17 +147,17 @@ const SITE = {
   /* ─────────────────────────  6 ▸ IF SHE SAYS YES  ──────────────────────────────
      The celebration: confetti, hearts, and this message. */
   yes: {
-    title: `You said yes!`,
+    title: `Oh baby, I can use the back door now`,
 
     text: `
-      Hannah, you just made my whole year. I'm grinning at my phone like an idiot right now.
+      But on a real note, I can't wait to cook for us together.
 
-      Thank you for taking a chance on me. I'll do my best to make you smile every single day.
+      I'll do my best to make you smile every single day.
     `,
 
     // OPTIONAL photo on this screen (same fields as above). To remove it, delete
     // the whole  photo: { ... },  line, or write  photo: null,
-    photo: { src: ``, alt: ``, caption: `Us, officially 💕`, focus: `center` },
+    photo: { src: `assets/giphy.gif`, alt: ``, caption: ``, focus: `center` },
 
     hint: `tap anywhere for more hearts`,              // tiny line at the bottom
   },
@@ -182,9 +183,7 @@ const SITE = {
     emoji: `🌷`,
     title: `Thank you for being honest`,
     text: `
-      I really appreciate you telling me, and I completely respect your answer.
-
-      You matter to me either way, and nothing about that changes. No pressure, nothing awkward, and I'm glad you're in my life.
+    I knew you would never get over the fact I AM INDIAN. brb gonna go shed a few tears
     `,
     backLabel: `Go back`,                              // lets her return (handy if she tapped by accident)
   },

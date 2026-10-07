@@ -398,6 +398,7 @@ mark {
   line-height: 1.1;
   text-wrap: balance;
 }
+.polaroid--bare { padding-bottom: 2.9rem; }     /* no caption: keep the classic thick bottom edge */
 
 /* Photo placeholder (shown until you add a real photo) */
 .ph {
@@ -658,6 +659,9 @@ html.screen-open body { overflow: hidden; }
   text-wrap: pretty;
 }
 .screen__photo { width: 100%; margin-top: 1.4rem; }
+/* on the answer screen the frame hugs the picture (no cropping), so a GIF shows in full */
+.screen__photo .polaroid__frame:has(img) { aspect-ratio: auto; }
+.screen__photo .polaroid__frame img { height: auto; object-fit: contain; }
 .screen__photo .polaroid { justify-self: center; width: min(80%, 18rem); --tilt: 2.4deg; }
 .screen__actions { display: grid; gap: .9rem; width: 100%; max-width: 21rem; margin-top: .3rem; }
 .screen__hint { font-size: 1.35rem; }       /* full ink: these screens have tinted backgrounds */
