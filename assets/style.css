@@ -1,0 +1,782 @@
+/* ==========================================================================
+   assets/style.css : how the page looks and moves.
+
+   You don't need to edit this file. Your words, photos and colors all live in
+   the "EDIT HERE" section at the very top of index.html.
+
+   Design notes
+   - Blue pen on blush paper. Display type is DynaPuff (puffy, like balloon
+     letters), the "handwriting" is Caveat. Both are self-hosted in assets/fonts.
+   - Mobile first. Tuned for an iPhone 16 Pro Max (440 x 956 CSS px, Dynamic
+     Island + home indicator) and everything smaller.
+   - Motion is subtle and is switched off for people who ask for less of it.
+   ========================================================================== */
+
+
+/* ---------- 0. Fonts ----------------------------------------------------- */
+
+@font-face {
+  font-family: "DynaPuff"; font-style: normal; font-weight: 500 700; font-display: swap;
+  src: url("fonts/dynapuff-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "DynaPuff"; font-style: normal; font-weight: 500 700; font-display: swap;
+  src: url("fonts/dynapuff-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Caveat"; font-style: normal; font-weight: 500 700; font-display: swap;
+  src: url("fonts/caveat-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Caveat"; font-style: normal; font-weight: 500 700; font-display: swap;
+  src: url("fonts/caveat-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+
+/* ---------- 1. Colors ---------------------------------------------------- */
+
+/* Default palette. Anything you set in the EDIT HERE section of index.html
+   wins over these, because unlayered rules beat layered ones. */
+@layer defaults {
+  :root {
+    --paper:  #FFEEF1;  /* page background (blush) */
+    --card:   #FFFBF9;  /* paper: letter, photos, the question card */
+    --ink:    #2D3A9C;  /* text (blue pen) */
+    --berry:  #F0467B;  /* hearts, ticks, highlights */
+    --butter: #FFE08A;  /* tape, highlighter, sticky notes */
+    --sky:    #CFE0FF;  /* sticky notes, ruled lines, calm screens */
+    --lilac:  #E4DAFF;  /* sticky notes, calm screens */
+    --peach:  #FFD9CB;  /* sticky notes */
+  }
+}
+
+:root {
+  /* Tones worked out from the colors above, so changing a color re-tints everything. */
+  --ink-soft:    color-mix(in srgb, var(--ink) 78%, var(--paper));   /* secondary text: still 4.5:1+ on the paper and card colors */
+  --ink-deep:    color-mix(in srgb, var(--ink) 74%, #000);
+  --line:        color-mix(in srgb, var(--ink) 17%, transparent);
+  --dot:         color-mix(in srgb, var(--ink) 13%, transparent);
+  --ruling:      color-mix(in srgb, var(--sky) 88%, var(--ink));
+  --margin-line: color-mix(in srgb, var(--berry) 40%, transparent);
+  --shadow:      color-mix(in srgb, var(--ink) 36%, transparent);
+  --berry-soft:  color-mix(in srgb, var(--berry) 17%, var(--paper));
+
+  --f-display: "DynaPuff", ui-rounded, "SF Pro Rounded", "Arial Rounded MT Bold", system-ui, sans-serif;
+  --f-hand:    "Caveat", "Bradley Hand", "Segoe Print", "Comic Sans MS", cursive;
+
+  /* iPhone safe areas (Dynamic Island, home indicator, landscape notch). */
+  --safe-t: env(safe-area-inset-top, 0px);
+  --safe-r: env(safe-area-inset-right, 0px);
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --safe-l: env(safe-area-inset-left, 0px);
+
+  --gx: 20px;       /* side gutter */
+  --col: 30rem;     /* widest the content column gets */
+  --ease-out: cubic-bezier(.2, .8, .2, 1);
+
+  color-scheme: light;
+}
+
+
+/* ---------- 2. Base ------------------------------------------------------ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  background: var(--paper);          /* keeps iOS rubber-banding the same color */
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background-color: var(--paper);
+  background-image: radial-gradient(circle, var(--dot) 1.1px, transparent 1.6px);
+  background-size: 22px 22px;        /* dot-grid paper */
+  color: var(--ink);
+  font-family: var(--f-hand);
+  font-weight: 600;
+  font-size: 1.625rem;
+  line-height: 1.3;
+  overflow-wrap: anywhere;           /* a very long word can't push the page wider (also inside grids) */
+  overflow-x: clip;                  /* tilted cards never cause sideways scroll */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, p, ul, figure { margin: 0; }
+ul { padding: 0; list-style: none; }
+img { display: block; max-width: 100%; }
+button { font: inherit; color: inherit; }
+[hidden] { display: none !important; }
+
+:focus-visible { outline: 3px solid var(--berry); outline-offset: 3px; }
+
+/* *stars* in your text become a highlighter pen mark */
+mark {
+  color: inherit;
+  background: linear-gradient(transparent 56%, var(--butter) 56% 90%, transparent 90%);
+  padding: 0 .12em;
+  margin: 0 -.12em;
+  border-radius: .2em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.nojs { margin: 3rem 1.5rem; text-align: center; }
+
+.wrap {
+  width: 100%;
+  max-width: var(--col);
+  margin-inline: auto;
+  padding-left: max(var(--gx), var(--safe-l));
+  padding-right: max(var(--gx), var(--safe-r));
+}
+
+.sec { padding-block: clamp(3rem, 11vw, 5rem); }
+
+.h2 {
+  font-family: var(--f-display);
+  font-weight: 600;
+  font-size: clamp(1.75rem, 7.4vw, 2.3rem);
+  line-height: 1.14;
+  text-align: center;
+  text-wrap: balance;
+  margin-bottom: 2rem;
+}
+.h2::after {                         /* hand-drawn squiggle underline */
+  content: "";
+  display: block;
+  width: 4.4rem;
+  height: .8rem;
+  margin: .7rem auto 0;
+  background: var(--berry);
+  -webkit-mask: var(--squiggle) center / contain no-repeat;
+  mask: var(--squiggle) center / contain no-repeat;
+  --squiggle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 70 14'%3E%3Cpath d='M3 8c6-8 11-8 16 0s11 8 16 0 11-8 16 0 11 8 16 0' fill='none' stroke='%23000' stroke-width='3.4' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+
+
+/* ---------- 3. Washi tape ------------------------------------------------- */
+
+.tape {
+  position: absolute;
+  top: -.8rem;
+  left: 50%;
+  width: 6.2rem;
+  height: 1.8rem;
+  transform: translateX(-50%) rotate(var(--tape-tilt, -3deg));
+  background-color: color-mix(in srgb, var(--tape, var(--butter)) 86%, transparent);
+  background-image: repeating-linear-gradient(135deg, rgba(255,255,255,.42) 0 5px, rgba(255,255,255,0) 5px 10px);
+  clip-path: polygon(0 0, 3% 14%, 0 28%, 3% 42%, 0 56%, 3% 70%, 0 84%, 3% 100%, 100% 100%, 97% 84%, 100% 70%, 97% 56%, 100% 42%, 97% 28%, 100% 14%, 97% 0);
+  pointer-events: none;
+}
+
+
+/* ---------- 4. Hero (first screen) ---------------------------------------- */
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 100vh;
+  min-height: 100svh;                /* fits the *visible* area under Safari's toolbar */
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding:
+    calc(var(--safe-t) + 28px)
+    max(var(--gx), var(--safe-r))
+    calc(var(--safe-b) + 96px)
+    max(var(--gx), var(--safe-l));
+}
+.hero::before {                      /* soft spotlight behind the name */
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(64% 34% at 50% 46%, rgba(255,255,255,.92), rgba(255,255,255,0) 74%);
+}
+
+.hero__inner {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: var(--col);
+}
+.hero__eyebrow {
+  font-size: clamp(1.5rem, 6.4vw, 1.9rem);
+  color: var(--ink-soft);
+}
+.hero__line {
+  max-width: 15em;
+  font-size: clamp(1.55rem, 6.6vw, 2rem);
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+/* "Han ♥ nah": her name is a palindrome, so the heart sits on its exact center. */
+.name {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: var(--f-display);
+  font-weight: 700;
+  /* as big as fits: the name (about 0.64em per letter, plus the heart) must stay inside the
+     screen, so longer names automatically get smaller type. --n is the letter count (set by app.js). */
+  font-size: min(6.5rem, calc((100vw - 3rem) / (0.64 * var(--n, 6) + 0.76)));
+  line-height: 1.05;
+  letter-spacing: -.01em;
+  white-space: nowrap;
+  /* a soft "lip" under the letters makes them look inflated, like balloon type */
+  text-shadow:
+    0 .045em 0 color-mix(in srgb, var(--ink) 16%, #fff),
+    0 .16em .3em color-mix(in srgb, var(--ink) 18%, transparent);
+}
+.name__half { display: block; }
+.name__heart {
+  flex: none;
+  width: .68em;
+  height: .62em;
+  margin: .04em .04em 0;
+  overflow: visible;
+  color: var(--berry);
+  filter: drop-shadow(0 .04em 0 color-mix(in srgb, var(--berry) 40%, #fff));
+}
+
+.hearts {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+.fh {
+  position: absolute;
+  left: var(--x);
+  bottom: -3rem;
+  width: var(--s);
+  height: calc(var(--s) * .9);
+  color: var(--berry);
+  opacity: 0;
+  animation: float var(--d) linear var(--dl) infinite;
+}
+.fh.t2 { color: color-mix(in srgb, var(--ink) 34%, var(--lilac)); }
+.fh.t3 { color: color-mix(in srgb, var(--berry) 50%, var(--butter)); }
+.hearts.is-off .fh { animation-play-state: paused; }
+
+.cue {
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--safe-b) + 14px);
+  transform: translateX(-50%);
+  display: grid;
+  justify-items: center;
+  padding: 8px 20px;
+  background: none;
+  border: 0;
+  color: var(--ink-soft);
+  font-size: 1.4rem;
+  line-height: 1.1;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.cue svg {
+  width: 1.7rem;
+  height: 1.7rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  animation: bob 1.9s ease-in-out infinite;
+}
+
+
+/* ---------- 5. The note (lined letter) ------------------------------------ */
+
+.letter {
+  --rule: 2.25rem;                   /* one ruled line */
+  --tilt: -1deg;
+  position: relative;
+  max-width: 27rem;
+  margin-inline: auto;
+  padding: var(--rule) 1.3rem calc(var(--rule) * .9) 3.3rem;
+  background-color: var(--card);
+  background-image:
+    linear-gradient(90deg, transparent 2.5rem, var(--margin-line) 2.5rem, var(--margin-line) calc(2.5rem + 2px), transparent calc(2.5rem + 2px)),
+    repeating-linear-gradient(to bottom, transparent 0, transparent calc(var(--rule) - 1.5px), var(--ruling) calc(var(--rule) - 1.5px), var(--ruling) var(--rule));
+  background-position: 0 0, 0 .06rem;     /* nudges the ruled lines up so the handwriting sits on them */
+  border-radius: 14px 14px 20px 20px;
+  box-shadow:
+    0 1px 0 #fff inset,
+    0 2px 4px color-mix(in srgb, var(--ink) 8%, transparent),
+    0 24px 40px -22px var(--shadow);
+  transform: rotate(var(--tilt));
+}
+.letter .tape { --tape-tilt: -3deg; }
+
+.letter__title {
+  display: flex;
+  align-items: flex-end;
+  min-height: calc(var(--rule) * 2);
+  padding-bottom: .15rem;
+  font-weight: 700;
+  font-size: 2.6rem;
+  line-height: 1;
+}
+.letter__body { display: grid; gap: var(--rule); }
+.letter__body p,
+.letter__signoff,
+.letter__sig { line-height: var(--rule); text-wrap: pretty; }
+.letter__signoff { margin-top: var(--rule); }
+.letter__sig {
+  font-weight: 700;
+  font-size: 2.5rem;
+  line-height: calc(var(--rule) * 1.5);
+  transform: rotate(-2deg);
+  transform-origin: left center;
+}
+
+
+/* ---------- 6. Photos (polaroids) ----------------------------------------- */
+
+.shots {
+  display: grid;
+  gap: clamp(2.6rem, 9vw, 3.6rem);
+}
+
+.polaroid {
+  --tilt: -2.2deg;
+  position: relative;
+  justify-self: start;
+  width: min(86%, 21rem);
+  padding: .8rem .8rem 0;
+  background: var(--card);
+  border-radius: 6px;
+  box-shadow:
+    0 1px 0 #fff inset,
+    0 2px 4px color-mix(in srgb, var(--ink) 8%, transparent),
+    0 22px 34px -20px var(--shadow);
+  transform: rotate(var(--tilt));
+}
+.polaroid:nth-child(even) { --tilt: 2deg; justify-self: end; }
+.polaroid:nth-child(4n+1) { --tape: var(--butter); --tape-tilt: -4deg; }
+.polaroid:nth-child(4n+2) { --tape: var(--sky);    --tape-tilt: 3deg; }
+.polaroid:nth-child(4n+3) { --tape: var(--lilac);  --tape-tilt: -2deg; }
+.polaroid:nth-child(4n+4) { --tape: var(--peach);  --tape-tilt: 4deg; }
+
+.polaroid__frame {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  isolation: isolate;                /* keeps rounded corners clean while fading in (WebKit) */
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--sky) 60%, var(--card));
+}
+.polaroid__frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity .6s ease;
+}
+.polaroid__frame img.is-loaded { opacity: 1; }
+
+.polaroid figcaption {
+  padding: .75rem .5rem 1rem;
+  text-align: center;
+  font-size: 1.7rem;
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+/* Photo placeholder (shown until you add a real photo) */
+.ph {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: .35rem;
+  padding: 1rem;
+  text-align: center;
+  color: var(--ink-soft);
+  background: repeating-linear-gradient(135deg,
+    color-mix(in srgb, var(--sky) 55%, var(--card)) 0 14px,
+    color-mix(in srgb, var(--lilac) 55%, var(--card)) 14px 28px);
+  border: 2.5px dashed color-mix(in srgb, var(--ink) 38%, transparent);
+  border-radius: 3px;
+}
+.ph svg {
+  width: 3.2rem;
+  height: 3.2rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.ph__title { font-size: 1.9rem; font-weight: 700; line-height: 1; }
+.ph__hint  { max-width: 11em; font-size: 1.25rem; line-height: 1.1; }
+
+
+/* ---------- 7. Reasons (sticky strips) ------------------------------------ */
+
+.chips {
+  display: grid;
+  gap: 1rem;
+  max-width: 27rem;
+  margin-inline: auto;
+}
+.chip {
+  --c: var(--butter);
+  --tilt: -.8deg;
+  position: relative;
+  padding: .9rem 1.1rem .9rem 3.4rem;
+  background: var(--c);
+  border-radius: 16px;
+  box-shadow: 0 14px 20px -16px var(--shadow);
+  font-size: 1.7rem;
+  line-height: 1.12;
+  text-wrap: pretty;
+  transform: rotate(var(--tilt));
+}
+.chip:nth-child(4n+2) { --c: var(--sky);   --tilt: .7deg; }
+.chip:nth-child(4n+3) { --c: var(--lilac); --tilt: -.5deg; }
+.chip:nth-child(4n+4) { --c: var(--peach); --tilt: .9deg; }
+.chip__heart {
+  position: absolute;
+  left: 1.1rem;
+  top: 50%;
+  width: 1.6rem;
+  height: 1.45rem;
+  margin-top: -.72rem;
+  color: var(--berry);
+}
+
+
+/* ---------- 8. The question (reply card) ---------------------------------- */
+
+.ask {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding:
+    4.5rem
+    max(var(--gx), var(--safe-r))
+    calc(var(--safe-b) + 3.5rem)
+    max(var(--gx), var(--safe-l));
+  background: radial-gradient(86% 46% at 50% 50%, var(--berry-soft), transparent 74%);
+}
+
+.ask__card {
+  position: relative;
+  width: 100%;
+  max-width: 27rem;
+  padding: 2.5rem 1.2rem 1.5rem;
+  text-align: center;
+  background: var(--card);
+  border-radius: 26px;
+  box-shadow:
+    0 1px 0 #fff inset,
+    0 2px 5px color-mix(in srgb, var(--ink) 8%, transparent),
+    0 30px 50px -26px var(--shadow);
+}
+.ask__card .tape { --tape: var(--sky); --tape-tilt: 2deg; }
+
+.ask__lead { font-size: 1.9rem; color: var(--ink-soft); }
+.ask__q {
+  margin: .5rem 0 1.5rem;
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: clamp(2.1rem, 9.6vw, 3rem);
+  line-height: 1.12;
+  text-wrap: balance;
+}
+/* the highlighted word gets a pink pen swoosh that draws itself in */
+.ask__q mark {
+  position: relative;
+  z-index: 0;
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+  background: none;
+}
+.ask__q mark::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: -.06em;
+  right: -.06em;
+  bottom: .04em;
+  height: .4em;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--berry) 42%, transparent);
+  transform: scaleX(0) rotate(-1.4deg);
+  transform-origin: left center;
+  transition: transform .9s .45s var(--ease-out);
+}
+.ask__card.in .ask__q mark::after { transform: scaleX(1) rotate(-1.4deg); }
+
+.ask__hint { margin-bottom: .3rem; font-size: 1.35rem; color: var(--ink-soft); }
+.ask__note { margin-top: 1.2rem; padding-inline: .6rem; font-size: 1.5rem; line-height: 1.2; color: var(--ink-soft); text-wrap: balance; }
+
+.replies { display: grid; text-align: left; }
+
+.reply {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  min-height: 4.4rem;
+  padding: .7rem .6rem;
+  background: none;
+  border: 0;
+  border-radius: 16px;
+  text-align: left;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: background-color .25s ease, opacity .3s ease, transform .15s ease;
+}
+.reply + .reply::before {            /* dashed rule between answers, like a form */
+  content: "";
+  position: absolute;
+  left: .6rem;
+  right: .6rem;
+  top: 0;
+  border-top: 2px dashed var(--line);
+}
+.reply__box {
+  flex: none;
+  width: 2.6rem;
+  height: 2.6rem;
+  overflow: visible;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.reply__box .box  { stroke: var(--ink-soft); stroke-width: 2.6; }
+.reply__box .tick { stroke: var(--ink); stroke-width: 4.4; stroke-dasharray: 100 160; stroke-dashoffset: 100; }  /* pathLength is 100 */
+.reply__label { font-size: 1.7rem; font-weight: 600; line-height: 1.1; text-wrap: balance; }
+
+.reply[aria-pressed="true"] { background: color-mix(in srgb, var(--butter) 52%, transparent); }
+.reply[aria-pressed="true"] .tick { animation: ink-tick .46s cubic-bezier(.45, .1, .25, 1) forwards; }
+.replies[data-picked] .reply:not([aria-pressed="true"]) { opacity: .42; }
+.reply:active { transform: scale(.985); }
+
+
+/* ---------- 9. Answer screens (Yes / Not yet / No) ------------------------- */
+
+.screen {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding:
+    calc(var(--safe-t) + 1.5rem)
+    max(var(--gx), var(--safe-r))
+    calc(var(--safe-b) + 2rem)
+    max(var(--gx), var(--safe-l));
+  text-align: center;
+  background-image: radial-gradient(circle, var(--dot) 1.1px, transparent 1.6px), var(--screen-bg);
+  background-size: 22px 22px, auto, auto;   /* dots, then the 1-2 gradient layers of --screen-bg */
+  opacity: 0;
+  transition: opacity .5s ease;
+}
+.screen.is-open { opacity: 1; }
+html.screen-open body { overflow: hidden; }
+
+.screen--yes {
+  --screen-bg:
+    radial-gradient(120% 60% at 50% 0%, color-mix(in srgb, var(--butter) 62%, #fff), transparent 66%),
+    linear-gradient(180deg, color-mix(in srgb, var(--berry) 15%, var(--paper)), color-mix(in srgb, var(--berry) 30%, var(--paper)));
+}
+.screen--maybe {
+  --screen-bg: linear-gradient(180deg, color-mix(in srgb, var(--butter) 30%, var(--paper)), color-mix(in srgb, var(--sky) 55%, var(--paper)));
+}
+.screen--no {
+  --screen-bg: linear-gradient(180deg, color-mix(in srgb, var(--sky) 55%, var(--paper)), color-mix(in srgb, var(--lilac) 75%, var(--paper)));
+}
+
+.screen__inner {
+  margin: auto;                      /* centers when short, scrolls cleanly when tall */
+  display: grid;
+  justify-items: center;
+  gap: 1.1rem;
+  width: 100%;
+  max-width: 27rem;
+  padding-block: 1rem;
+}
+.screen.is-open .screen__inner { animation: screen-in .7s var(--ease-out) both; }
+
+.screen__heart {
+  width: clamp(5.5rem, 28vw, 7.4rem);
+  aspect-ratio: 108 / 98;
+  color: var(--berry);
+  filter: drop-shadow(0 .6rem .7rem color-mix(in srgb, var(--berry) 38%, transparent));
+  animation: beat 1.7s ease-in-out infinite;
+}
+.screen__emoji {
+  font-size: 4.6rem;
+  line-height: 1;
+  animation: bob 3.4s ease-in-out infinite;
+}
+.screen__title {
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: clamp(2.3rem, 10.5vw, 3.2rem);
+  line-height: 1.1;
+  text-wrap: balance;
+}
+.screen__title:focus { outline: none; }
+.screen__text {
+  display: grid;
+  gap: .8rem;
+  max-width: 22rem;
+  font-size: 1.75rem;
+  line-height: 1.2;
+  text-wrap: pretty;
+}
+.screen__photo { width: 100%; margin-top: 1.4rem; }
+.screen__photo .polaroid { justify-self: center; width: min(80%, 18rem); --tilt: 2.4deg; }
+.screen__actions { display: grid; gap: .9rem; width: 100%; max-width: 21rem; margin-top: .3rem; }
+.screen__hint { font-size: 1.35rem; }       /* full ink: these screens have tinted backgrounds */
+.screen__photo:empty, .screen__actions:empty, .screen__hint:empty { display: none; }
+
+#confetti {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+
+/* ---------- 10. Buttons ---------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.6rem;
+  padding: 0 1.8rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ink);
+  color: #fff;
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: 1.2rem;
+  line-height: 1.1;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-appearance: none;
+  appearance: none;
+  box-shadow: 0 5px 0 var(--ink-deep), 0 18px 26px -14px var(--shadow);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.btn:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--ink-deep), 0 6px 12px -8px var(--shadow); }
+.btn--ghost { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 2.5px var(--ink); }
+.btn--ghost:active { transform: scale(.98); box-shadow: inset 0 0 0 2.5px var(--ink); }
+
+@media (hover: hover) {
+  .btn:hover { transform: translateY(-1px); }
+  .reply:hover { background: color-mix(in srgb, var(--sky) 42%, transparent); }
+  .reply[aria-pressed="true"]:hover { background: color-mix(in srgb, var(--butter) 52%, transparent); }
+}
+
+
+/* ---------- 11. Motion ------------------------------------------------------ */
+
+/* Scroll reveal: elements start hidden once JS is running and fade up when seen. */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(24px) rotate(var(--tilt, 0deg));
+  transition: opacity .8s ease, transform .9s var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 90ms);
+}
+.js .reveal.in { opacity: 1; transform: rotate(var(--tilt, 0deg)); }
+
+/* Opening moment on the first screen (starts once the fonts are ready) */
+.js [data-enter] { opacity: 0; }
+.is-ready .hero__eyebrow { animation: rise .8s .1s var(--ease-out) both; }
+.is-ready .hero__line    { animation: rise .9s 1.25s var(--ease-out) both; }
+.is-ready .cue           { animation: fade-in .9s 1.9s ease both; }
+.is-ready .name__half--l { animation: from-left  .95s .3s cubic-bezier(.2, .9, .25, 1.12) both; }
+.is-ready .name__half--r { animation: from-right .95s .3s cubic-bezier(.2, .9, .25, 1.12) both; }
+.is-ready .name__heart {
+  animation:
+    pop .75s .85s cubic-bezier(.3, 1.7, .5, 1) both,
+    beat 2.8s 1.9s ease-in-out infinite;
+}
+.js .name__half, .js .name__heart { opacity: 0; }
+.is-ready .name__half, .is-ready .name__heart { opacity: 1; }
+
+@keyframes rise      { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes fade-in   { from { opacity: 0; } to { opacity: 1; } }
+@keyframes from-left { from { opacity: 0; transform: translateX(-.6em); } to { opacity: 1; transform: none; } }
+@keyframes from-right{ from { opacity: 0; transform: translateX(.6em); }  to { opacity: 1; transform: none; } }
+@keyframes pop       { 0% { opacity: 0; transform: scale(0) rotate(-24deg); } 100% { opacity: 1; transform: scale(1) rotate(0); } }
+@keyframes beat      { 0%, 100% { transform: scale(1); } 14% { transform: scale(1.14); } 28% { transform: scale(1); } 42% { transform: scale(1.08); } 56% { transform: scale(1); } }
+@keyframes bob       { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+@keyframes ink-tick  { to { stroke-dashoffset: 0; } }
+@keyframes screen-in { from { opacity: 0; transform: translateY(18px) scale(.97); } to { opacity: 1; transform: none; } }
+/* Hearts drift up the screen. Around the middle of the trip (when they pass behind the
+   words on the first screen) they fade way down, so nothing competes with the text. */
+@keyframes float {
+  0%   { transform: translate3d(0, 0, 0) rotate(var(--r)) scale(.7); opacity: 0; }
+  12%  { opacity: var(--o); }
+  37%  { opacity: var(--o); }
+  43%  { opacity: calc(var(--o) * .2); }
+  50%  { transform: translate3d(calc(var(--sway) * -1), -52vh, 0) rotate(calc(var(--r) * -1)) scale(1); }
+  58%  { opacity: calc(var(--o) * .2); }
+  64%  { opacity: var(--o); }
+  88%  { opacity: var(--o); }
+  100% { transform: translate3d(var(--sway), -112vh, 0) rotate(var(--r)) scale(1.08); opacity: 0; }
+}
+
+
+/* ---------- 12. Respect "reduce motion" ------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    transition-delay: 0s !important;
+  }
+  .hearts { display: none; }
+}
+
+
+/* ---------- 13. Bigger screens (so it still looks good on a desktop preview) - */
+
+@media (min-width: 700px) {
+  :root { --col: 33rem; }
+  html { font-size: 112.5%; }
+}

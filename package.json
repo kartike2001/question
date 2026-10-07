@@ -1,0 +1,16 @@
+{
+  "name": "question",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A small static page (plain HTML, CSS and JS: no build step).",
+  "scripts": {
+    "preview": "node tools/preview.mjs",
+    "photos": "node tools/photos.mjs",
+    "qr": "node tools/qr.mjs"
+  },
+  "devDependencies": {
+    "heic-convert": "^2.1.0",
+    "qrcode": "^1.5.4",
+    "sharp": "^0.35.5"
+  }
+}

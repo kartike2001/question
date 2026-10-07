@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+
+<!--
+ ╔═════════════════════════════════════════════════════════════════════════════╗
+ ║                                                                             ║
+ ║   ✏️   EDIT HERE   ·   START                                                ║
+ ║                                                                             ║
+ ║   This is the ONLY part you need to change. Every word, photo and color     ║
+ ║   on the page comes from the three parts below. Everything after the        ║
+ ║   "END OF EDIT SECTION" line is the machinery. No need to touch it.         ║
+ ║                                                                             ║
+ ╚═════════════════════════════════════════════════════════════════════════════╝
+
+ QUICK RULES  (read once, then you're set)
+ ─────────────────────────────────────────
+  •  Change the words between the `backticks`. Keep the backticks, the commas
+     at the end of each line, and the { } [ ] brackets.
+  •  Between backticks you can type almost anything: apostrophes, "quotes", emoji 💕
+     (The only things that won't work: another backtick, a backslash, or the two
+     characters ${ together.)
+  •  Longer texts (your note, the Yes / Not yet / No messages): leave an EMPTY
+     LINE between paragraphs.
+  •  Wrap a word in *stars* to highlight it, like:  Will you be my *girlfriend*?
+  •  To remove something, delete the words but keep the backticks:  ``
+  •  Save the file, then refresh the page in your browser to see the change.
+  •  To see it on your own phone while you edit: run  npm run preview  in a terminal
+     and open the second address it prints in Safari (phone and computer on the same Wi-Fi).
+  •  If a red box appears at the top of the page, a backtick or comma went
+     missing. Press F12 and look at the Console to see which line.
+-->
+
+
+<!-- ═════════════════════  PART 1 of 3  ·  YOUR WORDS & PHOTOS  ═════════════════════ -->
+<script>
+const SITE = {
+
+
+  /* ──────────────────────────  1 ▸ THE FIRST SCREEN  ──────────────────────────
+     The very first thing Hannah sees. */
+  hero: {
+    eyebrow:    `a little something for`,              // small line above her name
+    name:       `Hannah`,                              // her name, big. The heart sits in the middle of it
+    line:       `I made this for you. Take your time.`, // one short line under her name
+    scrollHint: `scroll down`,                         // tiny hint at the bottom of the screen
+  },
+
+
+  /* ───────────────────────────────  2 ▸ YOUR NOTE  ──────────────────────────────
+     A handwritten letter on lined paper. Leave an empty line between paragraphs.
+     (Delete all the text to hide this section.) */
+  note: {
+    title: `Hi Hannah,`,                               // how the letter starts
+
+    text: `
+      I'm better at texting than talking about feelings, so I made you a little website instead.
+
+      Somewhere along the way, you became the person I want to tell everything to first. The good news, the bad news, the random thoughts, all of it.
+
+      So I wanted to ask you something properly, with a little effort and a lot of heart.
+    `,
+
+    signoff:   `Yours,`,                               // e.g. `Love,` or `Always,`
+    signature: `Your Name`,                            // ← your name
+  },
+
+
+  /* ───────────────────────────────  3 ▸ PHOTOS  ───────────────────────────────
+     Each photo becomes a polaroid with a handwritten caption.
+
+     HOW TO ADD A PHOTO
+       1. Put your original photos in a folder called  photos-original
+          (it sits next to this file and is never uploaded).
+       2. In a terminal in this folder, run:   npm install      (first time only)
+          then:                                npm run photos
+          That makes small, fast copies in the  photos  folder with your location
+          data removed (phone photos secretly carry GPS info!) and prints the exact
+          line to paste into  src  below.
+       3. Paste it in, like:   src: `photos/beach-day.jpg`
+
+     RULES FOR FILE NAMES: lowercase, no spaces. GitHub Pages is case-sensitive,
+     so  Beach.JPG  and  beach.jpg  are different files. (The tool handles this.)
+
+     No photo yet? Leave  src  empty and a pretty placeholder shows up instead.
+     Want more photos? Copy a whole { ... }, block and paste it below the last one.
+     Want fewer? Delete a whole { ... }, block.  (Delete them all to hide this section.) */
+  photos: {
+    title: `A few of my favorite moments`,
+
+    items: [
+      {
+        src:     ``,                                   // ← photo file, e.g. `photos/us-1.jpg`
+        alt:     ``,                                   // ← optional: describe it for screen readers
+        caption: `Caption for photo 1`,                // ← handwritten text under the photo
+        focus:   `center`,                             // ← optional: which part to keep when cropping
+      },                                               //   `top`, `center`, `bottom`, or like `50% 20%`
+      {
+        src:     ``,
+        alt:     ``,
+        caption: `Caption for photo 2`,
+        focus:   `center`,
+      },
+      {
+        src:     ``,
+        alt:     ``,
+        caption: `Caption for photo 3`,
+        focus:   `center`,
+      },
+    ],
+  },
+
+
+  /* ─────────────────────────  4 ▸ THINGS YOU ADORE ABOUT HER  ─────────────────────
+     Little sticky-note strips. ONE PER LINE. (Delete all the text to hide this section.) */
+  reasons: {
+    title: `A few things I adore about you`,
+
+    list: `
+      Your laugh (the real one, not the polite one)
+      How you make ordinary days feel a little lighter
+      The way you remember the small stuff
+      How kind you are without making a big deal of it
+    `,
+  },
+
+
+  /* ───────────────────────────  5 ▸ THE QUESTION  ───────────────────────────────
+     A reply card, like an RSVP. She taps the answer that fits and a blue-pen
+     checkmark draws itself in. Her answer then opens one of the three screens
+     further down. */
+  question: {
+    lead: `So, here's the thing…`,                     // small handwritten line above the question
+    text: `Will you be my *girlfriend*, Hannah?`,      // the question. *stars* = highlighted
+    hint: `tap one to reply`,                          // tiny hint above the answers
+
+    yesLabel:   `Yes, I'd love to`,                    // answer 1
+    maybeLabel: `I'd like a little time to think`,     // answer 2 (the gentle "not yet"). Make it `` to remove it
+    noLabel:    `No, but thank you for asking`,        // answer 3
+
+    note: `Either answer is okay. I'm just glad you read this.`,   // small line under the answers
+  },
+
+
+  /* ─────────────────────────  6 ▸ IF SHE SAYS YES  ──────────────────────────────
+     The celebration: confetti, hearts, and this message. */
+  yes: {
+    title: `You said yes!`,
+
+    text: `
+      Hannah, you just made my whole year. I'm grinning at my phone like an idiot right now.
+
+      Thank you for taking a chance on me. I'll do my best to make you smile every single day.
+    `,
+
+    // OPTIONAL photo on this screen (same fields as above). To remove it, delete
+    // the whole  photo: { ... },  line, or write  photo: null,
+    photo: { src: ``, alt: ``, caption: `Us, officially 💕`, focus: `center` },
+
+    hint: `tap anywhere for more hearts`,              // tiny line at the bottom
+  },
+
+
+  /* ──────────────────────  7 ▸ IF SHE PICKS "A LITTLE TIME"  ────────────────────
+     Only used if you kept the middle answer above. Keep this kind and pressure-free. */
+  maybe: {
+    emoji: `🌱`,                                        // the little picture on top
+    title: `Take all the time you need`,
+    text: `
+      Thank you for being honest about where you are. There's no deadline and no pressure from me.
+
+      Whatever you decide, I'm glad you're in my life.
+    `,
+    backLabel: `Go back`,                              // lets her return to the question
+  },
+
+
+  /* ───────────────────────────  8 ▸ IF SHE SAYS NO  ─────────────────────────────
+     Write this as if you're really reading her "no": warm, no guilt, no pressure. */
+  no: {
+    emoji: `🌷`,
+    title: `Thank you for being honest`,
+    text: `
+      I really appreciate you telling me, and I completely respect your answer.
+
+      You matter to me either way, and nothing about that changes. No pressure, nothing awkward, and I'm glad you're in my life.
+    `,
+    backLabel: `Go back`,                              // lets her return (handy if she tapped by accident)
+  },
+
+};
+</script>
+
+
+<!-- ═════════════════════  PART 2 of 3  ·  BROWSER TAB TITLE  ═════════════════════
+     The little title shown on Safari's tab. -->
+<title>For Hannah 💌</title>
+
+
+<!-- ═══════════════════  PART 3 of 3  ·  COLORS  (optional)  ═══════════════════
+     Change a color code and everything re-tints to match. Pick colors at
+     https://htmlcolorcodes.com  (keep --ink dark so text stays readable). -->
+<style>
+  :root {
+    --paper:  #FFEEF1;   /* page background: soft blush */
+    --card:   #FFFBF9;   /* paper: the letter, photos, question card */
+    --ink:    #2D3A9C;   /* all text and buttons: blue pen */
+    --berry:  #F0467B;   /* hearts */
+    --butter: #FFE08A;   /* tape, highlighter pen */
+    --sky:    #CFE0FF;   /* sticky notes, ruled lines */
+    --lilac:  #E4DAFF;   /* sticky notes */
+    --peach:  #FFD9CB;   /* sticky notes */
+  }
+</style>
+
+<!--
+ ╔═════════════════════════════════════════════════════════════════════════════╗
+ ║   ✏️   END OF EDIT SECTION   ·   nothing below this line needs changing     ║
+ ╚═════════════════════════════════════════════════════════════════════════════╝
+-->
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FFEEF1">
+<meta name="color-scheme" content="light">
+<meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
+<meta name="robots" content="noindex, nofollow">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 108 98'%3E%3Cpath d='M50 85C50 85 6 56 6 30C6 15 17 5 30 5C39 5 46 10 50 18C54 10 61 5 70 5C83 5 94 15 94 30C94 56 50 85 50 85Z' fill='%23F0467B' stroke='%23F0467B' stroke-width='6' stroke-linejoin='round'/%3E%3C/svg%3E">
+
+<link rel="preload" href="assets/fonts/dynapuff-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/caveat-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/style.css">
+<script>document.documentElement.classList.add('js');</script>
+<script src="assets/app.js" defer></script>
+</head>
+
+<body>
+<noscript><p class="nojs">This little page needs JavaScript. Please turn it on and refresh. 💕</p></noscript>
+
+<main id="page">
+
+  <!-- First screen -->
+  <header class="hero" id="top">
+    <div class="hearts" aria-hidden="true"></div>
+    <div class="hero__inner">
+      <p class="hero__eyebrow" data-enter></p>
+      <h1 class="name"></h1>
+      <p class="hero__line" data-enter></p>
+    </div>
+    <button class="cue" type="button" data-enter>
+      <span class="cue__label"></span>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 9l7 7 7-7"/></svg>
+    </button>
+  </header>
+
+  <!-- Note -->
+  <section class="note sec" id="note" aria-labelledby="note-title" hidden>
+    <div class="wrap">
+      <article class="letter reveal">
+        <span class="tape" aria-hidden="true"></span>
+        <h2 class="letter__title" id="note-title"></h2>
+        <div class="letter__body"></div>
+        <p class="letter__signoff"></p>
+        <p class="letter__sig"></p>
+      </article>
+    </div>
+  </section>
+
+  <!-- Photos -->
+  <section class="photos sec" id="photos" aria-labelledby="photos-title" hidden>
+    <div class="wrap">
+      <h2 class="h2 reveal" id="photos-title"></h2>
+      <div class="shots"></div>
+    </div>
+  </section>
+
+  <!-- Things you adore about her -->
+  <section class="reasons sec" id="reasons" aria-labelledby="reasons-title" hidden>
+    <div class="wrap">
+      <h2 class="h2 reveal" id="reasons-title"></h2>
+      <ul class="chips"></ul>
+    </div>
+  </section>
+
+  <!-- The question -->
+  <section class="ask" id="ask" aria-labelledby="ask-q">
+    <div class="hearts" aria-hidden="true"></div>
+    <div class="ask__card reveal">
+      <span class="tape" aria-hidden="true"></span>
+      <p class="ask__lead"></p>
+      <h2 class="ask__q" id="ask-q"></h2>
+      <p class="ask__hint"></p>
+      <div class="replies" role="group" aria-labelledby="ask-q"></div>
+      <p class="ask__note"></p>
+    </div>
+  </section>
+
+</main>
+
+<!-- Template for the three answer screens (filled in by assets/app.js) -->
+<template id="screen-tpl">
+  <div class="screen" role="dialog" aria-modal="true" hidden>
+    <div class="screen__inner">
+      <div class="screen__icon" aria-hidden="true"></div>
+      <h2 class="screen__title" tabindex="-1"></h2>
+      <div class="screen__text"></div>
+      <div class="screen__actions"></div>
+      <p class="screen__hint"></p>
+      <div class="screen__photo"></div>
+    </div>
+  </div>
+</template>
+
+<canvas id="confetti" aria-hidden="true"></canvas>
+
+</body>
+</html>
